@@ -94,7 +94,7 @@ We may update this Privacy Policy occasionally. Users will be notified of any si
 ## Contact Information
 
 For privacy concerns or questions:
-- GitHub: [https://github.com/blackmoon1987/gemini-help](https://github.com/blackmoon1987/gemini-help)
+- GitHub: [https://github.com/blackmoon1987/gemini-help](https://github.com/blackmoon1987/GeminiHelp)
 - Chrome Web Store: Visit our extension page
 - Email: [Your contact email]
 
