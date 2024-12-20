@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title id="title" data-i18n="title">Gemini Help</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            width: 400px;
+            background: #ffffff;
+            color: #1a1a1a;
+        }
+
+        .support-card {
+            background: linear-gradient(135deg, #1a237e, #0d47a1);
+            color: white;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .support-card:hover {
+            background: linear-gradient(135deg, #0d47a1, #1565c0);
+        }
+
+        .support-card span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .support-card i {
+            font-size: 16px;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .header {
+            background: #4285f4;
+            color: white;
+            padding: 16px 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .site-info {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-top: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .selection-badge {
+            background: #34a853;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            display: none;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .selection-badge .close {
+            cursor: pointer;
+            font-weight: bold;
+            padding: 0 2px;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .selection-badge .close:hover {
+            opacity: 1;
+        }
+
+        .selection-active .selection-badge {
+            display: inline-flex;
+        }
+
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            resize: none;
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 16px 0;
+            transition: border-color 0.2s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #4285f4;
+        }
+
+        .button-primary {
+            background: #4285f4;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 12px;
+        }
+
+        .button-primary:hover:not(:disabled) {
+            background: #3367d6;
+            transform: translateY(-1px);
+        }
+
+        .button-container {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .button-secondary {
+            flex: 1;
+            background: #f8f9fa;
+            color: #4285f4;
+            border: 2px solid #4285f4;
+            padding: 10px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 5px;
+        }
+
+        .button-secondary:hover:not(:disabled) {
+            background: #4285f4;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 14px;
+            appearance: none;
+            background: #ffffff url('data:image/svg+xml;utf8,<svg fill="%234285f4" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 12px center;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #4285f4;
+        }
+
+        .progress-container {
+            display: none;
+            margin: 16px 0;
+            background: #f8f9fa;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: #4285f4;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            font-size: 12px;
+            color: #5f6368;
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 16px 0;
+            color: #5f6368;
+            font-size: 14px;
+        }
+
+        #result {
+            margin-top: 16px;
+            padding: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            min-height: 100px;
+            max-height: 300px;
+            overflow-y: auto;
+            font-size: 14px;
+            line-height: 1.6;
+            background: #f8f9fa;
+        }
+
+        #result:empty {
+            display: none;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+
+        /* Loading animation */
+        .loading::after {
+            content: '';
+            animation: dots 1.5s infinite;
+        }
+
+        /* About button and modal */
+        .about-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .about-btn:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: relative;
+            background: white;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            max-height: calc(100% - 40px);
+            overflow-y: auto;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 20px;
+            color: #666;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 15px;
+            padding-right: 20px;
+        }
+
+        .modal-desc {
+            font-size: 14px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        [dir="rtl"] .about-btn {
+            right: auto;
+            left: 20px;
+        }
+
+        [dir="rtl"] .modal-close {
+            right: auto;
+            left: 10px;
+        }
+
+        [dir="rtl"] .modal-title {
+            padding-right: 0;
+            padding-left: 20px;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60% { content: '...'; }
+            80%, 100% { content: ''; }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <a href="https://buymeacoffee.com/black.moon" target="_blank" class="support-card">
+        <span>
+            <i class="material-icons">favorite</i>
+            <span data-i18n="supportDev">Support the Developer</span>
+        </span>
+        <i class="material-icons">arrow_forward</i>
+    </a>
+
+    <div class="header">
+        <h2 data-i18n="title">Gemini Help</h2>
+        <button class="about-btn" data-i18n="about">About</button>
+        <div class="site-info">
+            <span data-i18n="currentSite">Current site</span>: <span id="currentSite">Loading...</span>
+            <span class="selection-badge"><span data-i18n="selectedText">Selected Text</span> <span class="close">×</span></span>
+        </div>
+    </div>
+
+    <!-- About Modal -->
+    <div class="modal" id="aboutModal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h3 class="modal-title" data-i18n="aboutTitle">About Gemini Help</h3>
+            <div class="modal-desc" data-i18n="aboutDesc"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <textarea id="userInput" placeholder="Enter your instructions here..." data-i18n-placeholder="instructions"></textarea>
+        
+        <select id="languageSelect">
+            <option value="en">English</option>
+            <option value="ar">العربية</option>
+            <option value="es">Español</option>
+            <option value="fr">Français</option>
+            <option value="de">Deutsch</option>
+            <option value="zh">中文</option>
+            <option value="ja">日本語</option>
+            <option value="ko">한국어</option>
+            <option value="ru">Русский</option>
+            <option value="hi">हिन्दी</option>
+        </select>
+
+        <div class="button-container">
+            <button id="summarizeBtn" class="button-secondary" data-i18n="summarize">Summarize</button>
+            <button id="translateBtn" class="button-secondary" data-i18n="translate">Translate</button>
+        </div>
+        
+        <button id="sendBtn" class="button-primary" data-i18n="send">Send Request</button>
+
+        <div class="progress-container">
+            <div class="progress-bar"></div>
+            <div class="progress-text" data-i18n="processing">Processing: 0%</div>
+        </div>
+
+        <div class="loading"></div>
+        
+        <div id="result"></div>
+    </div>
+
+    <script src="translations.js"></script>
+    <script src="popup.js"></script>
+</body>
+</html>
